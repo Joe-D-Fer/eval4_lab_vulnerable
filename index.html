@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Informe de Evaluación de Ciberseguridad</title>
+<style>
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+        margin:40px;
+        color:#222;
+        line-height:1.5;
+        background:#f5f7fa;
+    }
+    h1,h2,h3{
+        color:#0b3d91;
+    }
+    .cover{
+        background:#0b3d91;
+        color:white;
+        padding:30px;
+        border-radius:10px;
+    }
+    .section{
+        background:white;
+        padding:25px;
+        margin-top:20px;
+        border-radius:10px;
+        box-shadow:0 2px 8px rgba(0,0,0,0.08);
+    }
+    table{
+        width:100%;
+        border-collapse:collapse;
+        margin-top:20px;
+        font-size:14px;
+    }
+    th{
+        background:#0b3d91;
+        color:white;
+        padding:12px;
+        border:1px solid #dcdcdc;
+    }
+    td{
+        border:1px solid #dcdcdc;
+        padding:10px;
+        vertical-align:top;
+    }
+    .critica{
+        background:#ffcccc;
+        font-weight:bold;
+    }
+    .alta{
+        background:#ffd9b3;
+        font-weight:bold;
+    }
+    .media{
+        background:#fff0b3;
+        font-weight:bold;
+    }
+    .baja{
+        background:#d9f2d9;
+        font-weight:bold;
+    }
+    code{
+        background:#efefef;
+        padding:2px 5px;
+        border-radius:4px;
+    }
+    .footer{
+        margin-top:30px;
+        font-size:12px;
+        color:#666;
+    }
+</style>
+</head>
+<body>
+
+<div class="cover">
+    <h1>Informe de Evaluación de Ciberseguridad</h1>
+    <h3>Aplicación Python Vulnerable</h3>
+    <p>
+        Evaluación basada en buenas prácticas de desarrollo seguro,
+        metodología SAMM, SDL y lineamientos OWASP.
+    </p>
+</div>
+
+<div class="section">
+    <h2>1. Resumen Ejecutivo</h2>
+
+    <p>
+        Se realizó una evaluación de seguridad sobre una aplicación Python
+        diseñada deliberadamente con múltiples vulnerabilidades críticas.
+        El objetivo fue identificar riesgos que afectan la confidencialidad,
+        integridad y disponibilidad del sistema.
+    </p>
+
+    <p>
+        Durante la revisión se detectaron vulnerabilidades severas como:
+    </p>
+
+    <ul>
+        <li>SQL Injection</li>
+        <li>Ejecución arbitraria de código</li>
+        <li>Exposición de credenciales y secretos</li>
+        <li>Uso inseguro de criptografía</li>
+        <li>Deserialización insegura</li>
+        <li>Cross-Site Scripting (XSS)</li>
+        <li>Command Injection</li>
+        <li>Falta de validación y sanitización de entradas</li>
+    </ul>
+
+    <p>
+        Estas vulnerabilidades podrían permitir acceso no autorizado,
+        robo de información sensible, ejecución remota de comandos,
+        escalamiento de privilegios y compromiso total del sistema.
+    </p>
+</div>
+
+<div class="section">
+    <h2>2. Metodología Utilizada</h2>
+
+    <p>
+        La evaluación se realizó considerando principios de:
+    </p>
+
+    <ul>
+        <li>OWASP Top 10</li>
+        <li>SAMM (Software Assurance Maturity Model)</li>
+        <li>SDL (Security Development Lifecycle)</li>
+        <li>Buenas prácticas de desarrollo seguro en Python</li>
+    </ul>
+
+    <p>
+        Se analizaron controles relacionados con:
+    </p>
+
+    <ul>
+        <li>Validación y sanitización de entradas</li>
+        <li>Protección de datos sensibles</li>
+        <li>Gestión segura de autenticación</li>
+        <li>Uso seguro de librerías y funciones</li>
+        <li>Prevención de inyecciones</li>
+        <li>Criptografía segura</li>
+        <li>Manejo seguro de archivos</li>
+        <li>Pruebas y verificación de seguridad</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>3. Tabla de Vulnerabilidades Detectadas</h2>
+
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Severidad</th>
+            <th>Vulnerabilidad</th>
+            <th>Descripción</th>
+            <th>Código Vulnerable</th>
+            <th>Recomendación</th>
+        </tr>
+
+        <tr>
+            <td>1</td>
+            <td class="critica">CRÍTICA</td>
+            <td>SQL Injection</td>
+            <td>
+                Concatenación directa de entradas del usuario en consultas SQL.
+                Permite manipulación de base de datos.
+            </td>
+            <td>
+                <code>
+                consulta = "SELECT * FROM usuarios WHERE nombre LIKE '%" + texto + "%'"
+                </code>
+            </td>
+            <td>
+                Utilizar consultas parametrizadas con placeholders.
+            </td>
+        </tr>
+
+        <tr>
+            <td>2</td>
+            <td class="critica">CRÍTICA</td>
+            <td>Ejecución Arbitraria con eval()</td>
+            <td>
+                El uso de <code>eval()</code> permite ejecutar código malicioso.
+            </td>
+            <td>
+                <code>resultado = eval(expresion)</code>
+            </td>
+            <td>
+                Reemplazar por lógica controlada, parsing seguro o
+                <code>ast.literal_eval()</code>.
+            </td>
+        </tr>
+
+        <tr>
+            <td>3</td>
+            <td class="critica">CRÍTICA</td>
+            <td>Ejecución Arbitraria con exec()</td>
+            <td>
+                Permite ejecutar instrucciones Python ingresadas por el usuario.
+            </td>
+            <td>
+                <code>exec(comando_python)</code>
+            </td>
+            <td>
+                Eliminar completamente el uso de <code>exec()</code>.
+            </td>
+        </tr>
+
+        <tr>
+            <td>4</td>
+            <td class="critica">CRÍTICA</td>
+            <td>Command Injection</td>
+            <td>
+                Entrada del usuario concatenada en comandos del sistema.
+            </td>
+            <td>
+                <code>os.system("ping " + host)</code>
+            </td>
+            <td>
+                Validar entradas y usar listas de argumentos sin shell=True.
+            </td>
+        </tr>
+
+        <tr>
+            <td>5</td>
+            <td class="alta">ALTA</td>
+            <td>Subprocess con shell=True</td>
+            <td>
+                Riesgo de ejecución de comandos arbitrarios.
+            </td>
+            <td>
+                <code>subprocess.run(comando, shell=True)</code>
+            </td>
+            <td>
+                Evitar shell=True y sanitizar parámetros.
+            </td>
+        </tr>
+
+        <tr>
+            <td>6</td>
+            <td class="critica">CRÍTICA</td>
+            <td>Credenciales Hardcodeadas</td>
+            <td>
+                Claves y secretos almacenados directamente en el código fuente.
+            </td>
+            <td>
+                <code>ADMIN_PASSWORD = "SuperPassword123"</code>
+            </td>
+            <td>
+                Usar variables de entorno o vaults seguros.
+            </td>
+        </tr>
+
+        <tr>
+            <td>7</td>
+            <td class="alta">ALTA</td>
+            <td>Exposición de Información Sensible</td>
+            <td>
+                Contraseñas y tokens impresos en consola y logs.
+            </td>
+            <td>
+                <code>print("Token activo:", JWT_TOKEN)</code>
+            </td>
+            <td>
+                Nunca exponer secretos en logs o pantallas.
+            </td>
+        </tr>
+
+        <tr>
+            <td>8</td>
+            <td class="alta">ALTA</td>
+            <td>Criptografía Débil (MD5 y SHA1)</td>
+            <td>
+                Uso de algoritmos inseguros para hashing y firmas.
+            </td>
+            <td>
+                <code>hashlib.md5()</code><br>
+                <code>hashlib.sha1()</code>
+            </td>
+            <td>
+                Utilizar bcrypt, Argon2 o SHA-256 con salt.
+            </td>
+        </tr>
+
+        <tr>
+            <td>9</td>
+            <td class="alta">ALTA</td>
+            <td>Cifrado Casero XOR</td>
+            <td>
+                Implementación criptográfica insegura y fácilmente reversible.
+            </td>
+            <td>
+                <code>encrypt_xor_casero()</code>
+            </td>
+            <td>
+                Utilizar librerías estándar como cryptography.
+            </td>
+        </tr>
+
+        <tr>
+            <td>10</td>
+            <td class="critica">CRÍTICA</td>
+            <td>Deserialización Insegura</td>
+            <td>
+                Uso inseguro de pickle y marshal con datos del usuario.
+            </td>
+            <td>
+                <code>pickle.loads(eval(datos))</code>
+            </td>
+            <td>
+                Nunca deserializar datos no confiables.
+            </td>
+        </tr>
+
+        <tr>
+            <td>11</td>
+            <td class="alta">ALTA</td>
+            <td>Cross-Site Scripting (XSS)</td>
+            <td>
+                HTML generado sin sanitización.
+            </td>
+            <td>
+                <code>html = "&lt;h1&gt;Hola " + nombre + "&lt;/h1&gt;"</code>
+            </td>
+            <td>
+                Escapar entradas y evitar renderizado inseguro.
+            </td>
+        </tr>
+
+        <tr>
+            <td>12</td>
+            <td class="alta">ALTA</td>
+            <td>Uso Inseguro de YAML</td>
+            <td>
+                <code>yaml.load()</code> puede ejecutar objetos arbitrarios.
+            </td>
+            <td>
+                <code>yaml.load(texto)</code>
+            </td>
+            <td>
+                Utilizar <code>yaml.safe_load()</code>.
+            </td>
+        </tr>
+
+        <tr>
+            <td>13</td>
+            <td class="media">MEDIA</td>
+            <td>Requests sin Timeout</td>
+            <td>
+                Riesgo de bloqueo y denegación de servicio.
+            </td>
+            <td>
+                <code>requests.get(url)</code>
+            </td>
+            <td>
+                Definir timeout y validar URLs.
+            </td>
+        </tr>
+
+        <tr>
+            <td>14</td>
+            <td class="alta">ALTA</td>
+            <td>Subida Insegura de Archivos</td>
+            <td>
+                No se validan nombres ni tipos de archivo.
+            </td>
+            <td>
+                <code>archivo.save(destino)</code>
+            </td>
+            <td>
+                Validar extensión, tamaño y sanitizar nombres.
+            </td>
+        </tr>
+
+        <tr>
+            <td>15</td>
+            <td class="alta">ALTA</td>
+            <td>Directory Traversal</td>
+            <td>
+                Posibilidad de acceder archivos arbitrarios.
+            </td>
+            <td>
+                <code>ruta = "data/" + nombre</code>
+            </td>
+            <td>
+                Validar rutas y restringir accesos.
+            </td>
+        </tr>
+
+        <tr>
+            <td>16</td>
+            <td class="media">MEDIA</td>
+            <td>Lectura de Archivos sin Límite</td>
+            <td>
+                Riesgo de consumo excesivo de memoria.
+            </td>
+            <td>
+                <code>open(ruta, "rb").read()</code>
+            </td>
+            <td>
+                Limitar tamaño y validar archivos.
+            </td>
+        </tr>
+
+        <tr>
+            <td>17</td>
+            <td class="alta">ALTA</td>
+            <td>Almacenamiento Inseguro de Tarjetas</td>
+            <td>
+                Datos financieros almacenados en texto plano.
+            </td>
+            <td>
+                <code>pagos.append({"tarjeta": tarjeta})</code>
+            </td>
+            <td>
+                Cumplir PCI-DSS y cifrar información sensible.
+            </td>
+        </tr>
+
+        <tr>
+            <td>18</td>
+            <td class="media">MEDIA</td>
+            <td>Tokens Inseguros</td>
+            <td>
+                Uso de random() para sesiones y tokens.
+            </td>
+            <td>
+                <code>random.random()</code>
+            </td>
+            <td>
+                Utilizar secrets.token_hex().
+            </td>
+        </tr>
+
+        <tr>
+            <td>19</td>
+            <td class="alta">ALTA</td>
+            <td>Contraseñas en Texto Plano</td>
+            <td>
+                Passwords almacenadas sin hashing seguro.
+            </td>
+            <td>
+                <code>password TEXT</code>
+            </td>
+            <td>
+                Aplicar hashing fuerte con bcrypt o Argon2.
+            </td>
+        </tr>
+
+        <tr>
+            <td>20</td>
+            <td class="media">MEDIA</td>
+            <td>Denegación de Servicio</td>
+            <td>
+                Bucle infinito sin control de recursos.
+            </td>
+            <td>
+                <code>while True:</code>
+            </td>
+            <td>
+                Implementar límites y control de memoria.
+            </td>
+        </tr>
+
+    </table>
+</div>
+
+<div class="section">
+    <h2>4. Riesgos para la Organización</h2>
+
+    <ul>
+        <li>Acceso no autorizado a bases de datos</li>
+        <li>Robo de credenciales y tokens</li>
+        <li>Compromiso total del servidor</li>
+        <li>Exposición de información financiera</li>
+        <li>Pérdida de disponibilidad del sistema</li>
+        <li>Incumplimiento normativo y legal</li>
+        <li>Daño reputacional</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>5. Recomendaciones Generales</h2>
+
+    <ol>
+        <li>
+            Implementar validación y sanitización de entradas
+            en cliente y servidor.
+        </li>
+
+        <li>
+            Eliminar completamente el uso de
+            <code>eval()</code>, <code>exec()</code>,
+            <code>pickle.loads()</code> y
+            comandos inseguros.
+        </li>
+
+        <li>
+            Migrar a consultas parametrizadas.
+        </li>
+
+        <li>
+            Utilizar autenticación segura y hashing moderno
+            con bcrypt o Argon2.
+        </li>
+
+        <li>
+            Proteger secretos mediante variables de entorno.
+        </li>
+
+        <li>
+            Aplicar principios OWASP Top 10.
+        </li>
+
+        <li>
+            Integrar herramientas automáticas de análisis como:
+            Bandit, SonarQube y linters de seguridad.
+        </li>
+
+        <li>
+            Implementar revisiones de código y pruebas
+            de seguridad continuas.
+        </li>
+
+        <li>
+            Aplicar metodología SDL y SAMM en el ciclo de desarrollo.
+        </li>
+
+        <li>
+            Incorporar políticas de gestión segura de dependencias.
+        </li>
+    </ol>
+</div>
+
+<div class="section">
+    <h2>6. Conclusión</h2>
+
+    <p>
+        El sistema evaluado presenta múltiples vulnerabilidades críticas
+        que comprometen seriamente la seguridad de la aplicación y la
+        protección de los datos procesados.
+    </p>
+
+    <p>
+        La ausencia de validaciones, el uso de funciones peligrosas,
+        la exposición de secretos y la implementación insegura de
+        mecanismos criptográficos representan un alto riesgo operativo.
+    </p>
+
+    <p>
+        Se recomienda priorizar la remediación inmediata de las
+        vulnerabilidades críticas y adoptar un enfoque de desarrollo
+        seguro basado en estándares reconocidos como OWASP,
+        SAMM y SDL.
+    </p>
+</div>
+
+<div class="section">
+    <h2>7. Referencias Técnicas</h2>
+
+    <ul>
+        <li>OWASP Top 10</li>
+        <li>OWASP SAMM</li>
+        <li>Microsoft SDL</li>
+        <li>Buenas prácticas de desarrollo seguro en Python</li>
+        <li>Lineamientos de validación y sanitización de entradas</li>
+    </ul>
+</div>
+
+<div class="footer">
+    Informe generado como evaluación técnica de seguridad para fines educativos y de auditoría.
+</div>
+
+</body>
+</html>
